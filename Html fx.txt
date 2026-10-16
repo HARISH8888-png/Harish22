@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Harish — Desktop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+/* ===== TOKENS =====
+   Colours: teal, warm yellow, tomato (+ cream / grey / ink neutrals) */
+:root{
+  --teal:#2a8c88; --teal-d:#154745; --yellow:#f2b84b; --tomato:#d9532f;
+  --cream:#efe9d8; --grey:#cfc8b2; --shade:#8c8672; --ink:#1d1b16;
+  --display:'Silkscreen','Courier New',monospace; --body:'VT323','Courier New',monospace;
+  --ease:cubic-bezier(.7,0,.2,1);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:12px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{
+  font:1.4rem/1.25 var(--body); color:var(--ink); background:var(--teal);
+  /* dithered desktop */
+  background-image:radial-gradient(var(--teal-d) 1px,transparent 1.2px);
+  background-size:4px 4px; padding:12px 10px 76px; min-height:100vh;
+}
+a{color:inherit}
+:focus-visible{outline:2px dashed var(--ink);outline-offset:2px}
+.bevel{background:var(--grey);box-shadow:inset -2px -2px #5a5648,inset 2px 2px #fff,inset -3px -3px var(--shade),inset 3px 3px var(--cream)}
+.sunk{background:var(--cream);box-shadow:inset 2px 2px #5a5648,inset -2px -2px #fff,inset 3px 3px var(--shade)}
+.btn{font:700 .85rem var(--display);padding:.8rem 1.1rem;border:0;color:var(--ink);cursor:pointer;text-decoration:none;display:inline-block;background:var(--grey);
+  box-shadow:inset -2px -2px #5a5648,inset 2px 2px #fff,inset -3px -3px var(--shade),inset 3px 3px var(--cream),2px 2px 0 var(--ink)}
+.btn:active{box-shadow:inset 2px 2px #5a5648,inset -2px -2px #fff;transform:translate(2px,2px)}
+.btn.hot{background:var(--yellow)}
+
+/* ===== WINDOWS ===== */
+.desk{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+.win{background:var(--grey);box-shadow:inset -2px -2px #5a5648,inset 2px 2px #fff,inset -3px -3px var(--shade),inset 3px 3px var(--cream),5px 5px 0 var(--ink);padding:4px;width:100%}
+.title{background:var(--teal-d);color:var(--cream);display:flex;align-items:center;gap:8px;padding:3px 4px 3px 8px;font:700 .72rem var(--display);min-height:28px}
+.title span{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.title b{width:22px;height:20px;background:var(--grey);color:var(--ink);border:0;font:700 .8rem var(--display);cursor:pointer;line-height:1;
+  box-shadow:inset -1px -1px #5a5648,inset 1px 1px #fff}
+.body{display:grid;grid-template-rows:1fr;transition:grid-template-rows .45s var(--ease)}
+.body>div{overflow:hidden}
+.win.min .body{grid-template-rows:0fr}
+.pad{padding:18px 16px 20px}
+.menu{display:flex;gap:16px;padding:3px 8px;font-size:1.1rem;border-bottom:2px solid var(--shade)}
+h2{font:700 1.3rem var(--display);margin-bottom:14px;letter-spacing:-.01em}
+p+p{margin-top:.8em}
+.page{background:var(--cream);box-shadow:inset 2px 2px #5a5648,inset -2px -2px #fff;margin:4px 0 0}
+
+/* ===== OPENING: card shuffle ===== */
+.intro{position:fixed;inset:0;z-index:100;overflow:hidden;pointer-events:all}
+.intro.gone{display:none}
+.card{position:absolute;inset:0;transition:transform .85s var(--ease)}
+.c1{background:var(--teal);transform:rotate(-2deg) scale(1.08)}
+.c2{background:var(--yellow);transform:rotate(1.5deg) scale(1.06)}
+.c3{background:var(--tomato);display:flex;flex-direction:column;justify-content:center;padding:0 8vw;color:var(--cream)}
+.c3 h1{font:700 clamp(1.4rem,7vw,3rem) var(--display);line-height:1.2}
+.c3 .load{margin-top:22px;height:22px;width:min(320px,80%);border:3px solid var(--cream);padding:2px}
+.c3 .load i{display:block;height:100%;width:0;background:var(--cream);animation:fill .55s steps(10) forwards}
+@keyframes fill{to{width:100%}}
+.intro.go .c3{transform:translate(-110%,-30%) rotate(-14deg)}
+.intro.go .c2{transform:translate(110%,10%) rotate(12deg);transition-delay:.14s}
+.intro.go .c1{transform:translate(0,110%) rotate(-6deg);transition-delay:.28s}
+.skip{position:absolute;right:14px;bottom:14px;z-index:2}
+
+/* ===== LANDING ===== */
+.hero{position:relative}
+.hero .pad{padding-top:22px}
+.name{font:700 clamp(3rem,15.5vw,8.4rem)/.9 var(--display);letter-spacing:-.03em;margin:6px 0 18px}
+.tag{font-size:1.9rem;line-height:1.1;margin-bottom:6px}
+.roles{display:inline-block;vertical-align:top;height:1.1em;overflow:hidden;color:var(--tomato);font-weight:400}
+.roles ul{list-style:none;padding:0;transition:transform .7s var(--ease)}
+.roles li{height:1.1em;white-space:nowrap}
+.cur{display:inline-block;width:.5em;height:.9em;background:var(--ink);vertical-align:-.08em;margin-left:3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.status{margin-top:20px;padding:6px 10px;font-size:1.2rem;display:flex;gap:10px;align-items:center}
+.status i{width:10px;height:10px;background:var(--teal);flex:none}
+.cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:22px}
+.mono{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.mono .ico{width:76px;height:76px;background:var(--yellow);display:grid;place-items:center;font:700 2.6rem var(--display);
+  box-shadow:inset -3px -3px #9a6a10,inset 3px 3px #ffe29a,4px 4px 0 var(--ink);transform:rotate(-4deg)}
+.mono small{font-size:1.15rem}
+.icons{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:22px}
+.icon{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;text-decoration:none;font-size:1.05rem;padding:6px 0}
+.icon svg{width:36px;height:36px;shape-rendering:crispEdges}
+.icon:hover span,.icon:focus-visible span{background:var(--teal-d);color:var(--cream)}
+.icon span{padding:0 3px}
+
+/* ===== SECTIONS ===== */
+.skills{display:grid;gap:10px}
+.skill{display:flex;align-items:baseline;gap:8px}
+.skill i{flex:1;border-bottom:3px dotted var(--shade);transform:translateY(-4px)}
+.lvl{font:700 .7rem var(--display);padding:5px 8px;background:var(--grey);box-shadow:inset -2px -2px #5a5648,inset 2px 2px #fff}
+.lvl.c{background:var(--yellow)}
+.lvl.l{background:var(--cream)}
+.note{margin-top:16px;font-size:1.15rem;color:#4b473a}
+.tree{list-style:none;padding:0}
+.tree>li{margin-bottom:18px}
+.folder{font:700 .8rem var(--display);display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.folder svg{width:22px;height:22px;shape-rendering:crispEdges}
+.tree ul{list-style:none;padding:0 0 0 11px;border-left:2px dotted var(--shade);margin-left:10px}
+.tree ul li{position:relative;padding:3px 0 3px 22px}
+.tree ul li::before{content:"";position:absolute;left:0;top:.95em;width:14px;border-top:2px dotted var(--shade)}
+.tree em{font-style:normal;color:var(--tomato)}
+.notepad{font-size:1.45rem;line-height:1.6;background-image:linear-gradient(transparent calc(100% - 1px),#c9c1a8 0);background-size:100% 1.6em;padding:14px 16px 20px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 0;border-bottom:2px dotted var(--shade)}
+.row:last-child{border:0}
+.row label{width:6.5ch;font-weight:700}
+.row .v{flex:1;min-width:0;overflow-wrap:anywhere;padding:3px 8px}
+
+/* ===== TASKBAR ===== */
+.bar{position:fixed;left:0;right:0;bottom:0;height:50px;z-index:50;display:flex;gap:6px;align-items:center;padding:5px;background:var(--grey);
+  box-shadow:inset 0 2px 0 #fff,inset 0 -2px 0 var(--shade),0 -2px 0 var(--ink)}
+.start{font:700 .8rem var(--display);flex:none;padding:0 10px;height:38px;display:flex;align-items:center;gap:6px;background:var(--yellow);text-decoration:none;color:var(--ink);
+  box-shadow:inset -2px -2px #9a6a10,inset 2px 2px #ffe29a,2px 2px 0 var(--ink)}
+.start svg{width:18px;height:18px;shape-rendering:crispEdges}
+.tasks{flex:1;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tasks::-webkit-scrollbar{display:none}
+.tasks a{flex:none;height:38px;display:flex;align-items:center;padding:0 10px;font-size:1.15rem;text-decoration:none;
+  box-shadow:inset -2px -2px #5a5648,inset 2px 2px #fff}
+.tasks a.on{background:var(--cream);box-shadow:inset 2px 2px #5a5648,inset -2px -2px #fff;font-weight:400;text-decoration:underline}
+#clock{flex:none;height:38px;padding:0 10px;display:flex;align-items:center;font-size:1.25rem;cursor:default;user-select:none;
+  box-shadow:inset 2px 2px #5a5648,inset -2px -2px #fff}
+
+/* ===== EASTER EGG ===== */
+.egg{position:fixed;inset:0;z-index:90;display:none;place-items:center;padding:16px;background:rgba(29,27,22,.45)}
+.egg.show{display:grid}
+.egg .win{max-width:400px;animation:pop .3s var(--ease)}
+@keyframes pop{from{transform:scale(.6)}}
+.egg .title{background:var(--tomato)}
+.egg .err{display:flex;gap:14px;padding:18px 14px;align-items:flex-start}
+.egg .x{flex:none;width:40px;height:40px;background:var(--tomato);color:var(--cream);display:grid;place-items:center;font:700 1.4rem var(--display)}
+
+@media (min-width:800px){
+  body{padding:28px 28px 80px;font-size:1.5rem}
+  .desk{gap:38px}
+  .hero{max-width:820px}
+  .hero .mono{position:absolute;right:-70px;top:70px;flex-direction:column;align-items:flex-start;background:var(--grey);padding:10px 12px;
+    box-shadow:inset -2px -2px #5a5648,inset 2px 2px #fff,5px 5px 0 var(--ink)}
+  .win.a{max-width:700px;margin-left:8%}
+  .win.s{max-width:620px;margin-left:auto}
+  .win.j{max-width:860px}
+  .win.b{max-width:560px;margin-left:14%}
+  .win.k{max-width:520px;margin-left:auto;margin-right:4%}
+  .pad{padding:26px 30px 30px}
+  .icons{max-width:480px}
+  .tasks a{padding:0 16px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- pixel icon library (inline SVG, no image files) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-doc" viewBox="0 0 16 16"><path fill="#1d1b16" d="M3 1h8l3 3v11H3z"/><path fill="#efe9d8" d="M4 2h6v3h3v9H4z"/><path fill="#2a8c88" d="M5 7h6v1H5zm0 2h6v1H5zm0 2h4v1H5z"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 16 16"><path fill="#1d1b16" d="M3 3h10v10H3z"/><path fill="#2a8c88" d="M4 4h8v8H4z"/><path fill="#f2b84b" d="M6 6h4v4H6z"/><path fill="#1d1b16" d="M5 1h1v2H5zm5 0h1v2h-1zM5 13h1v2H5zm5 0h1v2h-1zM1 5h2v1H1zm0 5h2v1H1zm12-5h2v1h-2zm0 5h2v1h-2z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 16 16"><path fill="#1d1b16" d="M1 3h5l2 2h7v9H1z"/><path fill="#f2b84b" d="M2 4h3l2 2h7v7H2z"/><path fill="#ffe29a" d="M2 7h12v1H2z"/></symbol>
+  <symbol id="i-face" viewBox="0 0 16 16"><path fill="#1d1b16" d="M4 2h8v1h2v2h1v6h-1v2h-2v1H4v-1H2v-2H1V5h1V3h2z"/><path fill="#f2b84b" d="M4 3h8v1h2v8h-2v1H4v-1H2V4h2z"/><path fill="#1d1b16" d="M5 6h2v2H5zm4 0h2v2H9zM5 10h1v1h4v-1h1v2H5z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 16 16"><path fill="#1d1b16" d="M1 3h14v10H1z"/><path fill="#efe9d8" d="M2 4h12v8H2z"/><path fill="#d9532f" d="M2 4h1v1h1v1h1v1h1v1h4V7h1V6h1V5h1V4h-1v1h-1v1h-1v1H7V6H6V5H5V4z"/></symbol>
+  <symbol id="i-win" viewBox="0 0 16 16"><path fill="#d9532f" d="M1 2h6v5H1z"/><path fill="#2a8c88" d="M9 2h6v5H9z"/><path fill="#f2b84b" d="M1 9h6v5H1z"/><path fill="#1d1b16" d="M9 9h6v5H9z"/></symbol>
+</svg>
+
+<!-- Opening: three coloured cards slide away -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="card c1"></div>
+  <div class="card c2"></div>
+  <div class="card c3">
+    <h1>Starting<br>Harish OS</h1>
+    <div class="load"><i></i></div>
+  </div>
+  <button class="btn skip" id="skip" aria-label="Skip opening animation">Skip</button>
+</div>
+
+<main class="desk">
+
+  <!-- LANDING -->
+  <section class="win hero" id="top" aria-label="Welcome">
+    <div class="title"><span>Harish.exe</span><b class="mb" aria-label="Collapse window">_</b></div>
+    <div class="body"><div>
+      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
+      <div class="pad">
+        <div class="mono" aria-hidden="true">
+          <div class="ico" id="mono">H</div>
+          <small>Harish.ico<br>32 x 32</small>
+        </div>
+        <h1 class="name">Harish</h1>
+        <!-- SIGNATURE MOVE: the tagline cycles through my roles -->
+        <p class="tag">I'm a <span class="roles" aria-live="off"><ul id="roles">
+          <li>first-year IT student</li><li>slow, careful debugger</li><li>beginner web builder</li><li>person who reads error messages</li><li>first-year IT student</li>
+        </ul></span><span class="cur" aria-hidden="true"></span></p>
+        <p>Learning to build small things that actually work.</p>
+        <p class="status sunk"><i></i><span>currently: getting comfortable with JavaScript</span></p>
+        <div class="cta">
+          <a class="btn hot" href="#about">Explore</a>
+          <a class="btn" href="#contact">Say hi</a>
+        </div>
+        <nav class="icons" aria-label="Desktop icons">
+          <a class="icon" href="#about"><svg><use href="#i-doc"/></svg><span>About.txt</span></a>
+          <a class="icon" href="#skills"><svg><use href="#i-chip"/></svg><span>Skills</span></a>
+          <a class="icon" href="#journey"><svg><use href="#i-folder"/></svg><span>Journey</span></a>
+          <a class="icon" href="#beyond"><svg><use href="#i-face"/></svg><span>Beyond</span></a>
+          <a class="icon" href="#contact"><svg><use href="#i-mail"/></svg><span>Mail</span></a>
+        </nav>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="win a" id="about">
+    <div class="title"><span>About.txt - Notepad</span><b class="mb" aria-label="Collapse window">_</b><b class="mb" aria-label="Close window">x</b></div>
+    <div class="body"><div>
+      <div class="menu"><span>File</span><span>Edit</span><span>Search</span></div>
+      <div class="page pad">
+        <h2>Hello, I'm Harish.</h2>
+        <!-- TODO: replace with your own story -->
+        <p>I'm in my first year of B.Tech Information Technology, and I live in Sivakasi, Tamil Nadu. I picked IT because I wanted to understand what's actually going on behind the screen, not only use it.</p>
+        <p>So far college has taught me that I learn best by breaking things and fixing them. I'd rather spend an evening working out why one line of code misbehaves than watch ten videos about it.</p>
+        <p>This website is my first proper project to share. It's a bit of a love letter to the old computers I never got to use, and I built it so I'd have a real place to put everything I make.</p>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="win s" id="skills">
+    <div class="title"><span>Skills - Properties</span><b class="mb" aria-label="Collapse window">_</b><b class="mb" aria-label="Close window">x</b></div>
+    <div class="body"><div>
+      <div class="pad">
+        <h2>What I can do today</h2>
+        <!-- TODO: edit to your honest levels -->
+        <div class="skills">
+          <div class="skill">HTML &amp; CSS<i></i><span class="lvl c">Comfortable</span></div>
+          <div class="skill">JavaScript<i></i><span class="lvl l">Learning</span></div>
+          <div class="skill">Python<i></i><span class="lvl l">Learning</span></div>
+          <div class="skill">C<i></i><span class="lvl">Just started</span></div>
+          <div class="skill">Git<i></i><span class="lvl">Just started</span></div>
+        </div>
+        <p class="note">No bars, no percentages. These are the words I'd use if you asked me in person.</p>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section class="win j" id="journey">
+    <div class="title"><span>C:\Harish\Journey</span><b class="mb" aria-label="Collapse window">_</b><b class="mb" aria-label="Close window">x</b></div>
+    <div class="body"><div>
+      <div class="menu"><span>File</span><span>View</span><span>Go</span></div>
+      <div class="page pad">
+        <!-- TODO: replace with your real projects -->
+        <ul class="tree">
+          <li><div class="folder"><svg><use href="#i-folder"/></svg>Made</div>
+            <ul><li>This portfolio, built from one HTML file</li><li>A small calculator in Python <em>(it crashes on zero)</em></li></ul></li>
+          <li><div class="folder"><svg><use href="#i-folder"/></svg>Learning</div>
+            <ul><li>JavaScript, mostly by making things move</li><li>How data structures work, with a pen and paper first</li></ul></li>
+          <li><div class="folder"><svg><use href="#i-folder"/></svg>Want to build</div>
+            <ul><li>An app for my college timetable that doesn't lie</li><li>A tool that helps small shops in my town keep track of stock</li></ul></li>
+        </ul>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- BEYOND CODE -->
+  <section class="win b" id="beyond">
+    <div class="title"><span>Beyond code - Notepad</span><b class="mb" aria-label="Collapse window">_</b><b class="mb" aria-label="Close window">x</b></div>
+    <div class="body"><div>
+      <div class="page notepad">
+        <!-- TODO: replace with your real hobbies and fun facts -->
+        When I'm not coding I'm usually:<br>
+        - listening to old Tamil film songs<br>
+        - playing cricket badly but happily<br>
+        - sketching small pixel characters<br>
+        <br>
+        Fun fact: my first "Hello World" took me an hour, because I forgot a semicolon.
+      </div>
+    </div></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="win k" id="contact">
+    <div class="title"><span>New message</span><b class="mb" aria-label="Collapse window">_</b><b class="mb" aria-label="Close window">x</b></div>
+    <div class="body"><div>
+      <div class="pad">
+        <h2>Say hi</h2>
+        <p style="margin-bottom:10px">I read every message. Replies may take a day or two, exams permitting.</p>
+        <!-- TODO: put your real links -->
+        <div class="row"><label>Email</label><span class="v sunk">harish@example.com</span><a class="btn" href="mailto:harish@example.com">Send</a></div>
+        <div class="row"><label>In</label><span class="v sunk">linkedin.com/in/your-name</span><a class="btn" href="https://www.linkedin.com/in/your-name" target="_blank" rel="noopener">Open</a></div>
+        <div class="row"><label>Git</label><span class="v sunk">github.com/your-name</span><a class="btn" href="https://github.com/your-name" target="_blank" rel="noopener">Open</a></div>
+      </div>
+    </div></div>
+  </section>
+
+</main>
+
+<!-- Taskbar -->
+<nav class="bar" aria-label="Taskbar">
+  <a class="start" href="#top"><svg><use href="#i-win"/></svg>Start</a>
+  <div class="tasks">
+    <a href="#about">About</a><a href="#skills">Skills</a><a href="#journey">Journey</a><a href="#beyond">Beyond</a><a href="#contact">Contact</a>
+  </div>
+  <div class="sunk" id="clock" title="Time">--:--</div>
+</nav>
+
+<!-- Easter egg: click the clock 5 times -->
+<div class="egg" id="egg" role="dialog" aria-label="Hidden message">
+  <div class="win">
+    <div class="title"><span>Harish.exe - Error</span></div>
+    <div class="err"><div class="x">!</div>
+      <div><p>Found it. Nobody finds the clock thing on the first try.</p><p style="margin-top:8px">Reward: you now know I once spent a whole evening hunting a bug that was a typo in a filename.</p></div></div>
+    <div style="padding:0 14px 14px;text-align:right"><button class="btn hot" id="eggok">OK, nice</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var intro = document.getElementById('intro'), done = false;
+
+  /* ---- Opening (plays once, under 2.5s, skippable) ---- */
+  function endIntro(){ if(done) return; done = true; intro.classList.add('gone'); startRoles(); }
+  if(reduce){ endIntro(); }
+  else{
+    setTimeout(function(){ intro.classList.add('go'); }, 650);
+    setTimeout(endIntro, 2250);
+    document.getElementById('skip').addEventListener('click', endIntro);
+  }
+
+  /* ---- Signature move: smooth role cycling ---- */
+  var ul = document.getElementById('roles'), n = ul.children.length - 1, i = 0, timer;
+  function step(){
+    i++; ul.style.transition = ''; ul.style.transform = 'translateY(' + (-i * 1.1) + 'em)';
+    if(i === n){
+      setTimeout(function(){ ul.style.transition = 'none'; ul.style.transform = 'translateY(0)'; i = 0; }, 750);
+    }
+  }
+  function startRoles(){ if(!reduce && !timer) timer = setInterval(step, 2200); }
+
+  /* ---- Collapse / restore windows ---- */
+  document.querySelectorAll('.mb').forEach(function(b){
+    b.addEventListener('click', function(){ b.closest('.win').classList.toggle('min'); });
+  });
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(){
+      var t = document.querySelector(a.getAttribute('href'));
+      if(t) t.classList.remove('min');
+    });
+  });
+
+  /* ---- Taskbar: active window + clock ---- */
+  var links = {}; document.querySelectorAll('.tasks a').forEach(function(a){ links[a.hash.slice(1)] = a; });
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){
+        Object.keys(links).forEach(function(k){ links[k].classList.toggle('on', k === e.target.id); });
+        if(links[e.target.id]) links[e.target.id].scrollIntoView({inline:'center',block:'nearest'});
+      }});
+    }, {rootMargin:'-35% 0px -55% 0px'});
+    Object.keys(links).forEach(function(k){ io.observe(document.getElementById(k)); });
+  }
+  var clock = document.getElementById('clock');
+  function tick(){ clock.textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', hour12:false}); }
+  tick(); setInterval(tick, 20000);
+
+  /* ---- Easter egg: click the clock five times ---- */
+  var taps = 0, tapT, egg = document.getElementById('egg');
+  clock.addEventListener('click', function(){
+    taps++; clearTimeout(tapT); tapT = setTimeout(function(){ taps = 0; }, 1500);
+    if(taps >= 5){ taps = 0; egg.classList.add('show'); document.getElementById('eggok').focus(); }
+  });
+  document.getElementById('eggok').addEventListener('click', function(){ egg.classList.remove('show'); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') egg.classList.remove('show'); });
+  console.log('Psst. The clock does more than tell time.');
+})();
+</script>
+</body>
+</html>
